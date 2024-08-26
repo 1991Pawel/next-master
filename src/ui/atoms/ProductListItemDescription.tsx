@@ -11,7 +11,7 @@ export const ProductListItemDescription = ({
 }: ProductListItemDescriptionProps) => {
 	return (
 		<div className="mt-2 block ">
-			<div className="text-lg font-semibold">{name}</div>
+			<h2 className="text-lg font-semibold">{name}</h2>
 			<div className="text-gray-500">{category}</div>
 			<div className="text-xl font-bold">{formatMoney(price)}</div>
 		</div>
