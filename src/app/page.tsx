@@ -3,7 +3,7 @@ const products = [
 	{
 		id: "1",
 		name: "Stolik kawowy",
-		price: 199.99,
+		price: 129.99,
 		category: "Meble",
 		coverImage: {
 			src: "https://www.ikea.com/pl/pl/images/products/dinera-kubek-ciemnoszary__0642538_pe701238_s5.jpg?f=sm",
