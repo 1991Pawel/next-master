@@ -1,4 +1,5 @@
-"use client";
+import Image from "next/image";
+import { getProductById, getProducts } from "../../../api/products";
 
 type ProductsPageProps = {
 	params: {
@@ -6,10 +7,20 @@ type ProductsPageProps = {
 	};
 };
 
-export default function SingleProductPage({ params: { productId } }: ProductsPageProps) {
+export const generateStaticParams = async () => {
+	const products = await getProducts();
+	const productsId = products.map(({ id }) => ({ productId: id })).slice(-4);
+	return productsId;
+};
+
+export default async function SingleProductPage({ params: { productId } }: ProductsPageProps) {
+	const product = await getProductById(productId);
+
 	return (
 		<div>
-			<p>product: {productId}</p>
+			<h1>{product.name}</h1>
+			<Image src={product.coverImage.src} alt={product.name} width={500} height={500} />
+			<p>{product.price}</p>
 		</div>
 	);
 }
