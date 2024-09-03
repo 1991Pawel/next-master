@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata, ResolvingMetadata } from "next";
 import { getProductById, getProducts } from "../../../api/products";
 
 type ProductsPageProps = {
@@ -6,6 +7,16 @@ type ProductsPageProps = {
 		productId: string;
 	};
 };
+
+export async function generateMetadata({
+	params: { productId },
+}: ProductsPageProps): Promise<Metadata> {
+	const product = await getProductById(productId);
+	return {
+		title: product.name,
+		description: product.category,
+	};
+}
 
 export const generateStaticParams = async () => {
 	const products = await getProducts();
