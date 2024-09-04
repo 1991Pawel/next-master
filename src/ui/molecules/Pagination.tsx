@@ -1,12 +1,14 @@
 "use client";
 
-export const Pagination = () => {
+export const Pagination = ({ pageNumber }: { pageNumber: number }) => {
+	// Tworzymy tablicę o długości równej pageNumber i wypełniamy ją liczbami od 1 do pageNumber
+	const pages = Array.from({ length: pageNumber }, (_, i) => i + 1);
+
 	return (
-		<div>
-			<button>1</button>
-			<button>2</button>
-			<button>3</button>
-			<button>4</button>
-		</div>
+		<nav>
+			{pages.map((page) => (
+				<button key={page}>{page}</button>
+			))}
+		</nav>
 	);
 };

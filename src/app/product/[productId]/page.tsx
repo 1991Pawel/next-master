@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import { getProductById, getProducts } from "../../../api/products";
 
 type ProductsPageProps = {

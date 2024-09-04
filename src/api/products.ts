@@ -18,7 +18,7 @@ type GetProductsParams = {
 	offset?: number;
 };
 
-export const getProducts = async ({ limit = 10, offset = 0 }: GetProductsParams = {}) => {
+export const getProducts = async ({ limit = 100, offset = 0 }: GetProductsParams = {}) => {
 	const res = await fetch(
 		`https://naszsklep-api.vercel.app/api/products?take=${limit}&offset=${offset}`,
 	);
