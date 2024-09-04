@@ -1,8 +1,19 @@
 import { ProductList } from "@/ui/organisms/ProductList";
+import { Pagination } from "@/ui/molecules/Pagination";
 
 import { getProducts } from "@/api/products";
 
 export default async function ProductsPage() {
-	const products = await getProducts();
-	return <ProductList products={products} />;
+	const currentPage = 1;
+	const limit = 10;
+	const offset = (currentPage - 1) * limit;
+
+	const products = await getProducts({ limit, offset });
+
+	return (
+		<>
+			<ProductList products={products} />
+			<Pagination />
+		</>
+	);
 }

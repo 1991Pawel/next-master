@@ -13,8 +13,15 @@ interface ProductResponseItem {
 	longDescription: string;
 }
 
-export const getProducts = async () => {
-	const res = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
+type GetProductsParams = {
+	limit?: number;
+	offset?: number;
+};
+
+export const getProducts = async ({ limit = 10, offset = 0 }: GetProductsParams = {}) => {
+	const res = await fetch(
+		`https://naszsklep-api.vercel.app/api/products?take=${limit}&offset=${offset}`,
+	);
 	const productsResponse = (await res.json()) as ProductResponseItem[];
 	const products = productsResponse.map(productResponseItemToProductItemType);
 	return products;
