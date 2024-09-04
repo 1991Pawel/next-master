@@ -3,13 +3,15 @@ import { Pagination } from "@/ui/molecules/Pagination";
 
 import { getProducts } from "@/api/products";
 
-export default async function ProductsPage() {
+export default async function ProductsPage({ children }: { children: React.ReactNode }) {
 	const productsPerPage = 10;
 	const products = await getProducts();
+	const pageNumber = products.length / productsPerPage;
 
 	return (
 		<>
-			<ProductList products={products.slice(0, productsPerPage)} />
+			<Pagination numOfPages={pageNumber} />
+			{children}
 		</>
 	);
 }
