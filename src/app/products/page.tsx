@@ -1,5 +1,4 @@
 import { ProductList } from "@/ui/organisms/ProductList";
-import { Pagination } from "@/ui/molecules/Pagination";
 
 import { getProducts } from "@/api/products";
 

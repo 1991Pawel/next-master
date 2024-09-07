@@ -1,35 +1,62 @@
-import { type ProductItemType } from "@/ui/types";
-interface ProductResponseItem {
-	id: string;
-	title: string;
-	price: number;
-	description: string;
-	category: string;
-	rating: {
-		rate: number;
-		count: number;
+type GraphQLProductResponse<T> =
+	| { data: T; errors?: undefined }
+	| { data?: undefined; errors: { message: string }[] };
+
+type Image = {
+	url: string;
+};
+
+type ProductsGraphQLResponse = {
+	products: {
+		data: {
+			id: string;
+			name: string;
+			price: number;
+			description: string;
+			images: Image[];
+		}[];
 	};
-	image: string;
-	longDescription: string;
-}
-
-type GetProductsParams = {
-	limit?: number;
-	offset?: number;
+};
+type ProductGraphQLResponse = {
+	product: {
+		id: string;
+		name: string;
+		price: number;
+		description: string;
+		images: Image[];
+	};
 };
 
-export const getProducts = async ({ limit = 100, offset = 0 }: GetProductsParams = {}) => {
-	const res = await fetch(
-		`https://naszsklep-api.vercel.app/api/products?take=${limit}&offset=${offset}`,
-	);
-	const productsResponse = (await res.json()) as ProductResponseItem[];
-	const products = productsResponse.map(productResponseItemToProductItemType);
-	return products;
+export const getProducts = async () => {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API_URL}`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			query: ` query getProducts { products(take: 10) { data { id name description price images { url } } } } `,
+		}),
+	});
+	const graphqlResponse = (await res.json()) as GraphQLProductResponse<ProductsGraphQLResponse>;
+	if (graphqlResponse.errors) {
+		throw new Error(graphqlResponse.errors[0].message);
+	}
+
+	return graphqlResponse.data.products.data.map((p) => {
+		return {
+			id: p.id,
+			name: p.name,
+			price: p.price,
+			description: p.description,
+			coverImage: {
+				src: p.images[0].url,
+				alt: p.name,
+			},
+		};
+	});
+
+	return [];
 };
 
-export const getProductById = async (id: ProductItemType["id"]) => {
-	console.log(process.env.NEXT_PUBLIC_GRAPHQL_API_URL);
-
+export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]) => {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_API_URL}`, {
 		method: "POST",
 		headers: {
@@ -44,16 +71,16 @@ export const getProductById = async (id: ProductItemType["id"]) => {
                         price
                         rating
 					images {
-      alt
-      url
-      width
-      id
-      height
-    }
-	    categories {
-      name
-      description
-    }
+						alt
+						url
+						width
+						id
+						height
+						}
+							categories {
+						name
+						description
+						}
                     }
                 }
             `,
@@ -63,33 +90,22 @@ export const getProductById = async (id: ProductItemType["id"]) => {
 		}),
 	});
 
-	const productResponse = (await res.json()) as ProductResponseItem;
-	const product = productResponseItemToProductItemType2(productResponse.data.product);
+	const graphqlResponse = (await res.json()) as GraphQLProductResponse<ProductGraphQLResponse>;
 
-	console.log(product, "p");
-	return product;
-};
+	if (graphqlResponse.errors) {
+		throw new Error(graphqlResponse.errors[0].message);
+	}
+	const product = graphqlResponse.data.product;
 
-const productResponseItemToProductItemType = (product: ProductResponseItem): ProductItemType => {
 	return {
 		id: product.id,
-		name: product.title,
-		category: product.category,
+		name: product.name,
 		price: product.price,
+		description: product.description,
 		coverImage: {
-			src: product.image,
-			alt: product.title,
+			src: product.images[0].url,
+			alt: product.name,
 		},
-	};
-};
-const productResponseItemToProductItemType2 = (product: ProductResponseItem): ProductItemType => {
-	return {
-		id: product?.id,
-		name: product?.name,
-		category: product?.categories[0].name,
-		price: product?.price,
-		coverImage: {
-			src: product?.images[0].url,
-		},
+		images: product.images,
 	};
 };
