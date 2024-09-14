@@ -13,6 +13,7 @@ const config: CodegenConfig = {
 				useTypeImports: true, // Poprawiono literówkę z "useTypeIMports" na "useTypeImports"
 				skipTypename: true,
 				documentMode: "string",
+				enumsAsTypes: true,
 			},
 			plugins: [],
 		},

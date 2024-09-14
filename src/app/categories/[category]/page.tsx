@@ -4,7 +4,6 @@ import { getProducts } from "@/api/products";
 
 export default async function ProductsPage({ params }: { params: { category: string } }) {
 	const { category } = params;
-	const products = await getProducts();
 
 	return (
 		<>

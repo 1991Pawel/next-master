@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -139,18 +140,16 @@ export type OrderList = {
   meta: ListMeta;
 };
 
-export enum OrderSortBy {
-  Default = 'DEFAULT',
-  Status = 'STATUS',
-  Total = 'TOTAL'
-}
+export type OrderSortBy =
+  | 'DEFAULT'
+  | 'STATUS'
+  | 'TOTAL';
 
-export enum OrderStatus {
-  Cancelled = 'CANCELLED',
-  Created = 'CREATED',
-  Fulfilled = 'FULFILLED',
-  Paid = 'PAID'
-}
+export type OrderStatus =
+  | 'CANCELLED'
+  | 'CREATED'
+  | 'FULFILLED'
+  | 'PAID';
 
 export type Product = {
   categories: Array<Category>;
@@ -178,12 +177,11 @@ export type ProductList = {
   meta: ListMeta;
 };
 
-export enum ProductSortBy {
-  Default = 'DEFAULT',
-  Name = 'NAME',
-  Price = 'PRICE',
-  Rating = 'RATING'
-}
+export type ProductSortBy =
+  | 'DEFAULT'
+  | 'NAME'
+  | 'PRICE'
+  | 'RATING';
 
 export type Query = {
   cart?: Maybe<Cart>;
@@ -272,10 +270,19 @@ export type ReviewList = {
   meta: ListMeta;
 };
 
-export enum SortDirection {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
+export type SortDirection =
+  | 'ASC'
+  | 'DESC';
+
+export type GetProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductCategoriesQuery = { categories: { data: Array<{ name: string }> } };
+
+export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }> }> } };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -291,3 +298,28 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+
+export const GetProductCategoriesDocument = new TypedDocumentString(`
+    query getProductCategories {
+  categories {
+    data {
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductCategoriesQuery, GetProductCategoriesQueryVariables>;
+export const ProductsGetListDocument = new TypedDocumentString(`
+    query ProductsGetList {
+  products(take: 10) {
+    data {
+      id
+      name
+      description
+      price
+      images {
+        url
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
