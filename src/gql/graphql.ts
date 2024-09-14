@@ -284,6 +284,13 @@ export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }> }> } };
 
+export type GetProductsByCategoriesQueryVariables = Exact<{
+  category: Scalars['String']['input'];
+}>;
+
+
+export type GetProductsByCategoriesQuery = { category?: { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }> }> } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -323,3 +330,18 @@ export const ProductsGetListDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const GetProductsByCategoriesDocument = new TypedDocumentString(`
+    query getProductsByCategories($category: String!) {
+  category(slug: $category) {
+    products {
+      id
+      name
+      description
+      price
+      images {
+        url
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductsByCategoriesQuery, GetProductsByCategoriesQueryVariables>;

@@ -1,8 +1,10 @@
 import {
 	ProductsGetListDocument,
 	GetProductCategoriesDocument,
+	GetProductsByCategoriesDocument,
 	type TypedDocumentString,
 	type CategoryList,
+	type Category,
 } from "@/gql/graphql";
 type GraphQLProductResponse<T> =
 	| { data: T; errors?: undefined }
@@ -136,4 +138,23 @@ export const getProductCategories = async () => {
 	const graphqlResponse = await executeGraphql(GetProductCategoriesDocument, {});
 
 	return graphqlResponse.categories.data.map((c) => c.name);
+};
+export const getProductsByCategories = async ({ category }: { category: string }) => {
+	const graphqlResponse = await executeGraphql(GetProductsByCategoriesDocument, {
+		category,
+	});
+
+	return graphqlResponse.category?.products.map((product) => {
+		return {
+			id: product.id,
+			name: product.name,
+			price: product.price,
+			description: product.description,
+			coverImage: {
+				src: product.images[0].url,
+				alt: product.name,
+			},
+			images: product.images,
+		};
+	});
 };

@@ -1,3 +1,5 @@
+import { ProductList } from "@/ui/organisms/ProductList";
+import { getProductsByCategories } from "@/api/products";
 export default async function ProductsPage({
 	params,
 }: {
@@ -5,10 +7,14 @@ export default async function ProductsPage({
 }) {
 	const { page, category } = params;
 
+	const products = await getProductsByCategories({
+		category: category.toLowerCase(),
+	});
+
 	return (
 		<>
 			<h2>
-				{category} {page}{" "}
+				{category} {page} <ProductList products={products} />
 			</h2>
 		</>
 	);

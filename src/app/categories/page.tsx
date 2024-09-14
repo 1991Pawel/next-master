@@ -8,7 +8,7 @@ export default async function ProductsPage() {
 			<div>
 				{categories.map((category) => (
 					<span key={category}>
-						<Link href={`/categories/${category}/1`}>{category}</Link>{" "}
+						<Link href={`/categories/${category.toLowerCase()}/1`}>{category}</Link>{" "}
 					</span>
 				))}
 			</div>
