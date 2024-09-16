@@ -1,19 +1,21 @@
 import Link from "next/link";
 import { ProductCoverImage } from "../atoms/ProductCoverImage";
 import { ProductListItemDescription } from "../atoms/ProductListItemDescription";
-import { type ProductItemType } from "../types";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
-type ProductListItemProos = {
-	product: ProductItemType;
+type ProductListItemProps = {
+	product: ProductListItemFragment;
 };
 
-export const ProductListItem = ({ product }: ProductListItemProos) => {
+export const ProductListItem = ({ product }: ProductListItemProps) => {
 	return (
 		<div className="mb-4">
 			<Link href={`/product/${product.id}`}>
 				<article className="rounded-lg bg-white p-4 shadow-md">
-					<ProductCoverImage {...product.coverImage} />
+					{product.images[0] && <ProductCoverImage src={product.images[0].url} alt={""} />}
+					dasd
 					<ProductListItemDescription product={product} />
+					{/* {JSON.stringify(product)} */}
 				</article>
 			</Link>
 		</div>

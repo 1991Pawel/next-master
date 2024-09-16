@@ -13,8 +13,9 @@ export default async function ProductsPage({
 
 	return (
 		<>
+			<h1> PAGE: {page}</h1>
 			<h2>
-				{category} {page} <ProductList products={products} />
+				<ProductList products={products} />
 			</h2>
 		</>
 	);

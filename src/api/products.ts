@@ -3,16 +3,12 @@ import {
 	GetProductCategoriesDocument,
 	GetProductsByCategoriesDocument,
 	type TypedDocumentString,
-	type CategoryList,
 	type Product,
 } from "@/gql/graphql";
+// import apiMaper from "@/api/apiMaper";
 type GraphQLProductResponse<T> =
 	| { data: T; errors?: undefined }
 	| { data?: undefined; errors: { message: string }[] };
-
-type Image = {
-	url: string;
-};
 
 type ProductGraphQLResponse = {
 	product: Product;
@@ -54,14 +50,12 @@ export const getProducts = async () => {
 			name: p.name,
 			price: p.price,
 			description: p.description,
-			coverImage: {
+			images: {
 				src: p.images[0].url,
 				alt: p.name,
 			},
 		};
 	});
-
-	return [];
 };
 
 export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]) => {
@@ -110,10 +104,6 @@ export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]
 		name: product.name,
 		price: product.price,
 		description: product.description,
-		coverImage: {
-			src: product.images[0].url,
-			alt: product.name,
-		},
 		images: product.images,
 	};
 };
@@ -134,10 +124,7 @@ export const getProductsByCategories = async ({ category }: { category: string }
 			name: product.name,
 			price: product.price,
 			description: product.description,
-			coverImage: {
-				src: product.images[0].url,
-				alt: product.name,
-			},
+			categories: product.categories,
 			images: product.images,
 		};
 	});

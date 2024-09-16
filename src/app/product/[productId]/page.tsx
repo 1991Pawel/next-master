@@ -30,7 +30,7 @@ export default async function SingleProductPage({ params: { productId } }: Produ
 	return (
 		<div>
 			<h1>{product.name}</h1>
-			<Image src={product.coverImage.src} alt={product.name} width={500} height={500} />
+			<Image src={product.images[0].url} alt={product.name} width={500} height={500} />
 			<p>{product.price}</p>
 		</div>
 	);

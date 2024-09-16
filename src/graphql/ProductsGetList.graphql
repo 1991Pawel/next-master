@@ -1,13 +1,7 @@
 query ProductsGetList {
 	products(take: 10) {
 		data {
-			id
-			name
-			description
-			price
-			images {
-				url
-			}
+			...ProductListItem
 		}
 	}
 }

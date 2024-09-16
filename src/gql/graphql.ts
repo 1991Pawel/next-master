@@ -274,6 +274,8 @@ export type SortDirection =
   | 'ASC'
   | 'DESC';
 
+export type ProductListItemFragment = { id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> };
+
 export type GetProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -282,14 +284,14 @@ export type GetProductCategoriesQuery = { categories: { data: Array<{ name: stri
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }> }> } };
+export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }> } };
 
 export type GetProductsByCategoriesQueryVariables = Exact<{
   category: Scalars['String']['input'];
 }>;
 
 
-export type GetProductsByCategoriesQuery = { category?: { products: Array<{ id: string, name: string, description: string, price: number, images: Array<{ url: string }> }> } | null };
+export type GetProductsByCategoriesQuery = { category?: { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }> } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -305,7 +307,21 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-
+export const ProductListItemFragmentDoc = new TypedDocumentString(`
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+    slug
+  }
+  images {
+    url
+  }
+}
+    `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
 export const GetProductCategoriesDocument = new TypedDocumentString(`
     query getProductCategories {
   categories {
@@ -319,29 +335,41 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList {
   products(take: 10) {
     data {
-      id
-      name
-      description
-      price
-      images {
-        url
-      }
+      ...ProductListItem
     }
   }
 }
-    `) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+    slug
+  }
+  images {
+    url
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const GetProductsByCategoriesDocument = new TypedDocumentString(`
     query getProductsByCategories($category: String!) {
   category(slug: $category) {
     products {
-      id
-      name
-      description
-      price
-      images {
-        url
-      }
+      ...ProductListItem
     }
   }
 }
-    `) as unknown as TypedDocumentString<GetProductsByCategoriesQuery, GetProductsByCategoriesQueryVariables>;
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+    slug
+  }
+  images {
+    url
+  }
+}`) as unknown as TypedDocumentString<GetProductsByCategoriesQuery, GetProductsByCategoriesQueryVariables>;
