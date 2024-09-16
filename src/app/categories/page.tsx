@@ -5,13 +5,6 @@ export default async function ProductsPage() {
 	return (
 		<>
 			<h2>Categories</h2>
-			<div>
-				{categories.map((category) => (
-					<span key={category}>
-						<Link href={`/categories/${category.toLowerCase()}/1`}>{category}</Link>{" "}
-					</span>
-				))}
-			</div>
 		</>
 	);
 }

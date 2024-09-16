@@ -4,7 +4,7 @@ import {
 	GetProductsByCategoriesDocument,
 	type TypedDocumentString,
 	type CategoryList,
-	type Category,
+	type Product,
 } from "@/gql/graphql";
 type GraphQLProductResponse<T> =
 	| { data: T; errors?: undefined }
@@ -15,13 +15,7 @@ type Image = {
 };
 
 type ProductGraphQLResponse = {
-	product: {
-		id: string;
-		name: string;
-		price: number;
-		description: string;
-		images: Image[];
-	};
+	product: Product;
 };
 
 const executeGraphql = async <TResult, TVariables>(
@@ -123,16 +117,6 @@ export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]
 		images: product.images,
 	};
 };
-
-// export const getProductCategories = async (category: string) => {
-// 	const res = await executeGraphql(GetProductCategoriesDocument, {});
-
-// 	const categories = res.data.categories.data.map((c) => c.name);
-
-// 	console.log(categories, "c");
-
-// 	const categories = graphqlResponse.data.categories.data.map((c) => c.name);
-// };
 
 export const getProductCategories = async () => {
 	const graphqlResponse = await executeGraphql(GetProductCategoriesDocument, {});

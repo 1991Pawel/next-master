@@ -7,7 +7,7 @@ export default async function ProductsPage({ params }: { params: { category: str
 
 	return (
 		<>
-			<h2>{category} Products</h2>
+			<div></div>
 		</>
 	);
 }

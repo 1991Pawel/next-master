@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ActiveLink } from "@/ui/atoms/ActiveLink";
+import { Navigation } from "@/ui/organisms/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,11 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
-				<nav>
-					<ActiveLink href="/">Home</ActiveLink>
-					<ActiveLink href="/products">All</ActiveLink>
-					<ActiveLink href="/categories">Categories</ActiveLink>
-				</nav>
+				<Navigation />
 				{children}
 			</body>
 		</html>
