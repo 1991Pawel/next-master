@@ -1,4 +1,3 @@
-import { type Route } from "next/types";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 import { getProductCategories } from "@/api/products";
 
