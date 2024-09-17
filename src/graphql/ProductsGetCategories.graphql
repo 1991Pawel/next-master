@@ -2,6 +2,7 @@ query getProductCategories {
 	categories {
 		data {
 			name
+			slug
 		}
 	}
 }

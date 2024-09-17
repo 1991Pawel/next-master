@@ -12,10 +12,11 @@ export const ProductListItem = ({ product }: ProductListItemProps) => {
 		<div className="mb-4">
 			<Link href={`/product/${product.id}`}>
 				<article className="rounded-lg bg-white p-4 shadow-md">
-					{product.images[0] && <ProductCoverImage src={product.images[0].url} alt={""} />}
-					dasd
+					{product.images[0] && (
+						<ProductCoverImage src={product.images[0].url} alt={product.name} />
+					)}
+
 					<ProductListItemDescription product={product} />
-					{/* {JSON.stringify(product)} */}
 				</article>
 			</Link>
 		</div>

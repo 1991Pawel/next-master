@@ -8,15 +8,17 @@ export default async function ProductsPage({
 	const { page, category } = params;
 
 	const products = await getProductsByCategories({
-		category: category.toLowerCase(),
+		category: category,
 	});
+
+	if (!products) {
+		return <p>No products found.</p>;
+	}
 
 	return (
 		<>
 			<h1> PAGE: {page}</h1>
-			<h2>
-				<ProductList products={products} />
-			</h2>
+			<ProductList products={products} />
 		</>
 	);
 }

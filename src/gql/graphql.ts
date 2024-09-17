@@ -279,7 +279,7 @@ export type ProductListItemFragment = { id: string, name: string, description: s
 export type GetProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductCategoriesQuery = { categories: { data: Array<{ name: string }> } };
+export type GetProductCategoriesQuery = { categories: { data: Array<{ name: string, slug: string }> } };
 
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -327,6 +327,7 @@ export const GetProductCategoriesDocument = new TypedDocumentString(`
   categories {
     data {
       name
+      slug
     }
   }
 }

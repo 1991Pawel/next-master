@@ -14,7 +14,7 @@ export async function generateMetadata({
 	const product = await getProductById(productId);
 	return {
 		title: product.name,
-		description: product.category,
+		description: product.description,
 	};
 }
 

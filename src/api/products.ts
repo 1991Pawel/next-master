@@ -50,10 +50,8 @@ export const getProducts = async () => {
 			name: p.name,
 			price: p.price,
 			description: p.description,
-			images: {
-				src: p.images[0].url,
-				alt: p.name,
-			},
+			categories: p.categories,
+			images: p.images,
 		};
 	});
 };
@@ -104,6 +102,7 @@ export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]
 		name: product.name,
 		price: product.price,
 		description: product.description,
+		categories: product.categories,
 		images: product.images,
 	};
 };
@@ -111,7 +110,7 @@ export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]
 export const getProductCategories = async () => {
 	const graphqlResponse = await executeGraphql(GetProductCategoriesDocument, {});
 
-	return graphqlResponse.categories.data.map((c) => c.name);
+	return graphqlResponse.categories.data.map((c) => c.slug);
 };
 export const getProductsByCategories = async ({ category }: { category: string }) => {
 	const graphqlResponse = await executeGraphql(GetProductsByCategoriesDocument, {
