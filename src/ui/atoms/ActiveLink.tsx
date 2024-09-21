@@ -9,10 +9,9 @@ type ActiveLinkType<T extends string> = {
 };
 
 export const ActiveLink = <T extends string>({ href, children }: ActiveLinkType<T>) => {
-	const pathname = usePathname();
-	const isActive = pathname === href;
+	const active = false;
 	return (
-		<Link className={isActive ? "font-semibold text-slate-900" : "text-slate-600"} href={href}>
+		<Link className={active ? "font-semibold text-slate-900" : "text-slate-600"} href={href}>
 			{children}
 		</Link>
 	);

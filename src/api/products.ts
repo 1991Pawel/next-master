@@ -41,10 +41,17 @@ const executeGraphql = async <TResult, TVariables>(
 	return graphqlResponse.data;
 };
 
-export const getProducts = async () => {
-	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
+type GetProductsVariables = {
+	take?: number;
+	skip?: number;
+};
 
-	return graphqlResponse.products.data.map((p) => {
+export const getProducts = async (variables?: GetProductsVariables) => {
+	const take = variables?.take ?? 10;
+	const skip = variables?.skip ?? 0;
+	const graphqlResponse = await executeGraphql(ProductsGetListDocument, { take, skip });
+
+	const products = graphqlResponse.products.data.map((p) => {
 		return {
 			id: p.id,
 			name: p.name,
@@ -54,6 +61,11 @@ export const getProducts = async () => {
 			images: p.images,
 		};
 	});
+
+	return {
+		products,
+		total: graphqlResponse.products.meta.total,
+	};
 };
 
 export const getProductById = async (id: ProductGraphQLResponse["product"]["id"]) => {

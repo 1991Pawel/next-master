@@ -279,12 +279,15 @@ export type ProductListItemFragment = { id: string, name: string, description: s
 export type GetProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductCategoriesQuery = { categories: { data: Array<{ name: string, slug: string }> } };
+export type GetProductCategoriesQuery = { categories: { data: Array<{ name: string, slug: string }>, meta: { count: number } } };
 
-export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsGetListQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
 
-export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }> } };
+export type ProductsGetListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }>, meta: { total: number } } };
 
 export type GetProductsByCategoriesQueryVariables = Exact<{
   category: Scalars['String']['input'];
@@ -329,14 +332,20 @@ export const GetProductCategoriesDocument = new TypedDocumentString(`
       name
       slug
     }
+    meta {
+      count
+    }
   }
 }
     `) as unknown as TypedDocumentString<GetProductCategoriesQuery, GetProductCategoriesQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList {
-  products(take: 10) {
+    query ProductsGetList($take: Int, $skip: Int) {
+  products(take: $take, skip: $skip) {
     data {
       ...ProductListItem
+    }
+    meta {
+      total
     }
   }
 }

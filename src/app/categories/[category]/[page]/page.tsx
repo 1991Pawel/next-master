@@ -1,11 +1,12 @@
 import { ProductList } from "@/ui/organisms/ProductList";
 import { getProductsByCategories } from "@/api/products";
+import { Pagination } from "@/ui/molecules/Pagination";
 export default async function ProductsPage({
 	params,
 }: {
 	params: { page: string; category: string };
 }) {
-	const { page, category } = params;
+	const { category } = params;
 
 	const products = await getProductsByCategories({
 		category: category,
@@ -17,7 +18,6 @@ export default async function ProductsPage({
 
 	return (
 		<>
-			<h1> PAGE: {page}</h1>
 			<ProductList products={products} />
 		</>
 	);
