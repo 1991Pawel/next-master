@@ -2,6 +2,7 @@ import {
 	ProductsGetListDocument,
 	GetProductCategoriesDocument,
 	GetProductsByCategoriesDocument,
+	GetProductsCollectionsDocument,
 	type TypedDocumentString,
 	type Product,
 } from "@/gql/graphql";
@@ -139,4 +140,9 @@ export const getProductsByCategories = async ({ category }: { category: string }
 			images: product.images,
 		};
 	});
+};
+
+export const getProductsByCollections = async () => {
+	const graphqlResponse = await executeGraphql(GetProductsCollectionsDocument, {});
+	return graphqlResponse.collections.data.map((c) => c.slug);
 };

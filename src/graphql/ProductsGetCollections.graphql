@@ -1,0 +1,8 @@
+query getProductsCollections {
+	collections {
+		data {
+			name
+			slug
+		}
+	}
+}
