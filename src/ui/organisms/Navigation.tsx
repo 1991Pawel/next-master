@@ -1,9 +1,9 @@
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
-import { getProductCategories, getProductsByCollections } from "@/api/products";
+import { getProductCategories, getProductsCollections } from "@/api/products";
 
 export const Navigation = async () => {
 	const categories = await getProductCategories();
-	const collections = await getProductsByCollections();
+	const collections = await getProductsCollections();
 
 	return (
 		<nav className="bg-gray-200 p-4">
@@ -22,7 +22,7 @@ export const Navigation = async () => {
 				))}
 				{collections.map((collection) => (
 					<li key={collection}>
-						<ActiveLink href={`/categories/${collection}/1`}>{collection}</ActiveLink>
+						<ActiveLink href={`/collections/${collection}`}>{collection}</ActiveLink>
 					</li>
 				))}
 			</ul>

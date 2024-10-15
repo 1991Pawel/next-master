@@ -2,9 +2,10 @@ import {
 	ProductsGetListDocument,
 	GetProductCategoriesDocument,
 	GetProductsByCategoriesDocument,
-	GetProductsCollectionsDocument,
+	GetProductsByCollectionsDocument,
 	type TypedDocumentString,
 	type Product,
+	GetProductsCollectionsDocument,
 } from "@/gql/graphql";
 // import apiMaper from "@/api/apiMaper";
 type GraphQLProductResponse<T> =
@@ -142,7 +143,24 @@ export const getProductsByCategories = async ({ category }: { category: string }
 	});
 };
 
-export const getProductsByCollections = async () => {
+export const getProductsCollections = async () => {
 	const graphqlResponse = await executeGraphql(GetProductsCollectionsDocument, {});
+
 	return graphqlResponse.collections.data.map((c) => c.slug);
+};
+export const getProductsByCollections = async ({ collection }: { collection: string }) => {
+	const graphqlResponse = await executeGraphql(GetProductsByCollectionsDocument, {
+		collection,
+	});
+
+	return graphqlResponse.collection?.products.map((product) => {
+		return {
+			id: product.id,
+			name: product.name,
+			price: product.price,
+			description: product.description,
+			categories: product.categories,
+			images: product.images,
+		};
+	});
 };

@@ -1,6 +1,6 @@
 import { ProductList } from "@/ui/organisms/ProductList";
 import { getProductsByCategories } from "@/api/products";
-import { Pagination } from "@/ui/molecules/Pagination";
+
 export default async function ProductsPage({
 	params,
 }: {

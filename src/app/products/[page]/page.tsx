@@ -21,7 +21,7 @@ export default async function ProductsPage({ params }: { params: { page: string 
 
 	return (
 		<>
-			<Pagination baseUrl={"/products"} totalPages={totalPages} currentPage={currentPage} />
+			<Pagination baseUrl={"/products"} totalPages={totalPages} />
 			<ProductList products={products} />
 		</>
 	);

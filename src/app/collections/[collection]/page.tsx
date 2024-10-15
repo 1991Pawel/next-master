@@ -1,14 +1,10 @@
 import { ProductList } from "@/ui/organisms/ProductList";
-import { getProductsByCategories } from "@/api/products";
-export default async function ProductsPage({
-	params,
-}: {
-	params: { page: string; category: string };
-}) {
-	const { category } = params;
+import { getProductsByCollections } from "@/api/products";
+export default async function ProductsPage({ params }: { params: { collection: string } }) {
+	const { collection } = params;
 
-	const products = await getProductsByCategories({
-		category: category,
+	const products = await getProductsByCollections({
+		collection,
 	});
 
 	if (!products) {
@@ -17,7 +13,8 @@ export default async function ProductsPage({
 
 	return (
 		<>
-			<h2>Collections</h2>
+			<h2>Collections {collection}</h2>
+			<ProductList products={products} />
 		</>
 	);
 }
